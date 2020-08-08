@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class UserDataSet {
-    suspend fun createURL(retrofitCallBack: RetrofitCallback) {
+    fun createURL(retrofitCallBack: RetrofitCallback) {
         var incomingObject = UserData()
 
         //Using retrofit to do the request---------------------------------------------

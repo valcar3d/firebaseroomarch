@@ -17,36 +17,14 @@ class UserViewModel : ViewModel() {
     private var _empData = MutableLiveData<MutableList<EmployeeEntity>>()
     var empData: LiveData<MutableList<EmployeeEntity>> = _empData
 
-
+    //region Core functions
     fun getDownload() {
 
         //Do API request in coroutine to avoid blocking the UI thread
         viewModelScope.launch(Dispatchers.IO) {
-
-            async {
-
-                usersUseCase.downloadAndProcessFile()
-                println("FINISHED DOWNLOAD AND PROCESS")
-                delay(3000)
-            }.await()
-
-            async {
-
-                usersUseCase.processJson()
-                println("FINISHED DATABASE CREATION")
-
-                _empData.postValue(
-                    UsersDataBase.getDatabase(MainMenu.instance).userDao().getAll()
-                )
-                println("FINISHED LIVE DATA LINK")
-            }
-
-            //Send Results to Main thread
-            withContext(Dispatchers.Main) {
-
-
-            }
+            usersUseCase.downloadAndProcessFile()
         }
+
     }
 
     fun insertNewUser(name: String, mail: String) {
@@ -63,6 +41,6 @@ class UserViewModel : ViewModel() {
         }
 
     }
-
+    //endregion
 
 }

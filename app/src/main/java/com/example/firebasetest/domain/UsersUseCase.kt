@@ -1,15 +1,23 @@
 package com.example.firebasetest.domain
 
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.downloader.*
 import com.example.firebasetest.data.UserDataSet
 import com.example.firebasetest.db.EmployeeEntity
 import com.example.firebasetest.db.UsersDataBase
 import com.example.firebasetest.interfaces.RetrofitCallback
+import com.example.firebasetest.interfaces.UnzipingComplete
 import com.example.firebasetest.ui.MainMenu
+import com.example.firebasetest.ui.MainMenuColabs
 import com.example.firebasetest.ui.model.UserData
 import com.example.firebasetest.util.JSONUtil.jsonToEntity
 import com.example.firebasetest.util.JSONUtil.readJSONFile
 import com.example.firebasetest.util.UnzipUtil.unzip
+import com.example.firebasetest.util.toast
+import com.example.firebasetest.viewmodel.UserViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.util.*
 
@@ -17,34 +25,50 @@ import java.util.*
 class UsersUseCase {
 
     private var userDataSet = UserDataSet()
+    private var dirPath = MainMenu.instance.filesDir.toString()
+    private lateinit var userViewModel: UserViewModel
 
-    suspend fun downloadAndProcessFile() {
+
+    fun downloadAndProcessFile() {
+
+        userViewModel = ViewModelProvider(MainMenuColabs.instance).get(UserViewModel::class.java)
 
         userDataSet.createURL(object : RetrofitCallback {
             override fun onComplete(result: UserData?) {
                 downloadURL(result)
             }
         })
+
     }
 
+
     private fun downloadURL(objectToGetUrl: UserData?) {
-        //var dirPath = ListOfEmployees.instance.filesDir.toString()
-        var dirPath = MainMenu.instance.filesDir.toString()
         var urlToDownload: String? = objectToGetUrl?.data?.file
         PRDownloader.initialize(MainMenu.instance)
 
-        //println("Path directory to save files = $dirPath")
-
-        var download = PRDownloader.download(urlToDownload, dirPath, "EmployeesList.zip")
+        //download the file from provided URL and assing a name
+        PRDownloader.download(urlToDownload, dirPath, "EmployeesList.zip")
             .build()
             .start(object : OnDownloadListener {
                 override fun onDownloadComplete() {
-                    println("Download Complete...Unziping")
-                    unzip("$dirPath/EmployeesList.zip", "$dirPath/files")
+
+                    unzip("$dirPath/EmployeesList.zip", "$dirPath/files",
+                        object : UnzipingComplete {
+                            override fun onUnzipCompletion() {
+                                userViewModel.viewModelScope.launch(Dispatchers.IO) {
+                                    //Process downloaded json
+                                    processJson()
+                                    //check the database to see all changes made
+                                    userViewModel.getCurrentEmployees()
+                                }
+
+                            }
+                        })
+
                 }
 
                 override fun onError(error: Error?) {
-                    println("Error while downloading ${error.toString()}")
+                    MainMenuColabs.instance.toast("Ocurrió un error en la descarga de usuarios")
                 }
 
             })
@@ -59,12 +83,9 @@ class UsersUseCase {
             config
         )
 
-        val status: Status = PRDownloader.getStatus(download)
-        //println("Download status: $status")
-
     }
 
-    suspend fun processJson(): MutableList<EmployeeEntity> {
+    fun processJson(): MutableList<EmployeeEntity> {
 
         var dirPath = MainMenu.instance.filesDir.toString()
 
@@ -78,16 +99,15 @@ class UsersUseCase {
             for (i in 0 until lisOfEmployees.size)
                 UsersDataBase.getDatabase(MainMenu.instance).userDao()
                     .insert(lisOfEmployees[i])
-            println("Inserted Data")
+            println("JSON processed - Data inserted")
         }
 
-        //println("Contents of Live Data = ${UsersDataBase.getDatabase(MainActivity.instance).userDao().getAll()}")
 
         return lisOfEmployees!!
 
     }
 
-    suspend fun processNewInsertion(name: String, email: String) {
+    fun processNewInsertion(name: String, email: String) {
 
         val minLatValue = -90
         val maxLatValue = 90
@@ -95,7 +115,7 @@ class UsersUseCase {
         val minLogValue = -180
         val maxLogValue = 180
 
-
+        //generate random values for latitude and longitude
         val random = Random().nextDouble()
         val rLatitude = minLatValue + random * (maxLatValue - minLatValue)
         val rLongitude = minLogValue + random * (maxLogValue - minLogValue)
@@ -107,8 +127,10 @@ class UsersUseCase {
         val randomLongitude: String = df.format(rLongitude).toString()
 
 
+        //create the new object EmployeeEntity
         var newEmployee = EmployeeEntity(0, name, randomLatitude, randomLongitude, email)
 
+        //insert the newly created object to the DB
         UsersDataBase.getDatabase(MainMenu.instance).userDao().insert(newEmployee)
 
     }

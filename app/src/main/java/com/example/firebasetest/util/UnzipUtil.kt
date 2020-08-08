@@ -1,5 +1,6 @@
 package com.example.firebasetest.util
 
+import com.example.firebasetest.interfaces.UnzipingComplete
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.zip.ZipEntry
@@ -7,7 +8,7 @@ import java.util.zip.ZipInputStream
 
 object UnzipUtil {
 
-    fun unzip(_zipFile: String?, _targetLocation: String) {
+    fun unzip(_zipFile: String?, _targetLocation: String, unzipingComplete: UnzipingComplete) {
 
         try {
             val fin = FileInputStream(_zipFile)
@@ -23,9 +24,9 @@ object UnzipUtil {
                 }
                 zin.closeEntry()
                 fout.close()
-                println("Unziping complete")
             }
             zin.close()
+            unzipingComplete.onUnzipCompletion()
         } catch (e: Exception) {
             println(e)
         }

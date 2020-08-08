@@ -32,14 +32,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".ui.MultipleMarkersMap"
-            android:label="@string/title_activity_multiple_markers_map" />
         <activity
             android:name=".ui.SingleMarkerMaps"
             android:label="@string/title_activity_maps" />
-         <!-- Main menu ***Launcher Activity*** -->
+        <!-- Main menu ***Launcher Activity*** -->
         <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
