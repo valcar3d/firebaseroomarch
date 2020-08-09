@@ -1,8 +1,12 @@
 package com.example.firebasetest.domain
 
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.downloader.*
+import com.downloader.Error
+import com.downloader.OnDownloadListener
+import com.downloader.PRDownloader
+import com.downloader.PRDownloaderConfig
 import com.example.firebasetest.data.UserDataSet
 import com.example.firebasetest.db.EmployeeEntity
 import com.example.firebasetest.db.UsersDataBase
@@ -10,12 +14,14 @@ import com.example.firebasetest.interfaces.RetrofitCallback
 import com.example.firebasetest.interfaces.UnzipingComplete
 import com.example.firebasetest.ui.MainMenu
 import com.example.firebasetest.ui.MainMenuColabs
+import com.example.firebasetest.ui.fragments.ListEmployeesFragment
 import com.example.firebasetest.ui.model.UserData
 import com.example.firebasetest.util.JSONUtil.jsonToEntity
 import com.example.firebasetest.util.JSONUtil.readJSONFile
 import com.example.firebasetest.util.UnzipUtil.unzip
 import com.example.firebasetest.util.toast
 import com.example.firebasetest.viewmodel.UserViewModel
+import kotlinx.android.synthetic.main.fragment_list_employees.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
@@ -27,11 +33,13 @@ class UsersUseCase {
     private var userDataSet = UserDataSet()
     private var dirPath = MainMenu.instance.filesDir.toString()
     private lateinit var userViewModel: UserViewModel
+    lateinit var listEmployeesFragment: ListEmployeesFragment
 
 
     fun downloadAndProcessFile() {
 
         userViewModel = ViewModelProvider(MainMenuColabs.instance).get(UserViewModel::class.java)
+        listEmployeesFragment = ListEmployeesFragment()
 
         userDataSet.createURL(object : RetrofitCallback {
             override fun onComplete(result: UserData?) {
@@ -40,7 +48,6 @@ class UsersUseCase {
         })
 
     }
-
 
     private fun downloadURL(objectToGetUrl: UserData?) {
         var urlToDownload: String? = objectToGetUrl?.data?.file
@@ -60,6 +67,8 @@ class UsersUseCase {
                                     processJson()
                                     //check the database to see all changes made
                                     userViewModel.getCurrentEmployees()
+
+
                                 }
 
                             }

@@ -3,8 +3,10 @@ package com.example.firebasetest.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.firebasetest.R
+import com.example.firebasetest.interfaces.UnzipingComplete
 import com.example.firebasetest.ui.fragments.ListEmployeesFragment
 import com.example.firebasetest.ui.fragments.ViewMapFragment
+import com.example.firebasetest.util.toast
 import kotlinx.android.synthetic.main.activity_main_menu_colabs.*
 
 class MainMenuColabs : AppCompatActivity() {
@@ -44,4 +46,5 @@ class MainMenuColabs : AppCompatActivity() {
         lateinit var instance: MainMenuColabs
             private set
     }
+
 }

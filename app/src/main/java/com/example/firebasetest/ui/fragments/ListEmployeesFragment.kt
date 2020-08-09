@@ -11,8 +11,10 @@ import com.example.firebasetest.R
 import com.example.firebasetest.adapters.EmployeesAdapter
 import com.example.firebasetest.db.EmployeeEntity
 import com.example.firebasetest.interfaces.RecyclerViewCallback
+import com.example.firebasetest.interfaces.UnzipingComplete
 import com.example.firebasetest.ui.MainMenuColabs
 import com.example.firebasetest.ui.SingleMarkerMaps
+import com.example.firebasetest.util.toast
 import com.example.firebasetest.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_list_employees.*
 
@@ -35,6 +37,7 @@ class ListEmployeesFragment : Fragment(R.layout.fragment_list_employees), Recycl
             val adapter = EmployeesAdapter(user, this)
 
             if (rvEmployeesFrag != null) {
+                progressBarEmployees.visibility = View.INVISIBLE
                 rvEmployeesFrag.adapter = adapter
                 rvEmployeesFrag.layoutManager = LinearLayoutManager(MainMenuColabs.instance)
             }
@@ -52,4 +55,6 @@ class ListEmployeesFragment : Fragment(R.layout.fragment_list_employees), Recycl
         intent.putExtra("name", item.fullName)
         startActivity(intent)
     }
+
+
 }
