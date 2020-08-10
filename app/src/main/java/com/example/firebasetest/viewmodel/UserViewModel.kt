@@ -8,7 +8,8 @@ import com.example.firebasetest.db.EmployeeEntity
 import com.example.firebasetest.db.UsersDataBase
 import com.example.firebasetest.domain.UsersUseCase
 import com.example.firebasetest.ui.MainMenu
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
 
@@ -27,9 +28,9 @@ class UserViewModel : ViewModel() {
 
     }
 
-    fun insertNewUser(name: String, mail: String) {
+    fun insertNewUser(name: String, mail: String, lat: String, log: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            usersUseCase.processNewInsertion(name, mail)
+            usersUseCase.processNewInsertion(name, mail, lat, log)
         }
     }
 

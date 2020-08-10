@@ -1,6 +1,5 @@
 package com.example.firebasetest.domain
 
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.downloader.Error
@@ -21,12 +20,10 @@ import com.example.firebasetest.util.JSONUtil.readJSONFile
 import com.example.firebasetest.util.UnzipUtil.unzip
 import com.example.firebasetest.util.toast
 import com.example.firebasetest.viewmodel.UserViewModel
-import kotlinx.android.synthetic.main.fragment_list_employees.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.util.*
-
 
 class UsersUseCase {
 
@@ -115,31 +112,38 @@ class UsersUseCase {
 
     }
 
-    fun processNewInsertion(name: String, email: String) {
+    fun processNewInsertion(name: String, email: String, lat: String, log: String) {
 
-        val minLatValue = -90
-        val maxLatValue = 90
+        if (lat == "" || log == "") {
+            val minLatValue = -90
+            val maxLatValue = 90
 
-        val minLogValue = -180
-        val maxLogValue = 180
+            val minLogValue = -180
+            val maxLogValue = 180
 
-        //generate random values for latitude and longitude
-        val random = Random().nextDouble()
-        val rLatitude = minLatValue + random * (maxLatValue - minLatValue)
-        val rLongitude = minLogValue + random * (maxLogValue - minLogValue)
+            //generate random values for latitude and longitude
+            val random = Random().nextDouble()
+            val rLatitude = minLatValue + random * (maxLatValue - minLatValue)
+            val rLongitude = minLogValue + random * (maxLogValue - minLogValue)
 
-        val df = DecimalFormat("#.#######")
+            val df = DecimalFormat("#.#######")
 
-        //Assing values to new Employee object
-        val randomLatitude: String = df.format(rLatitude).toString()
-        val randomLongitude: String = df.format(rLongitude).toString()
+            //Assing values to new Employee object
+            val randomLatitude: String = df.format(rLatitude).toString()
+            val randomLongitude: String = df.format(rLongitude).toString()
 
 
-        //create the new object EmployeeEntity
-        var newEmployee = EmployeeEntity(0, name, randomLatitude, randomLongitude, email)
+            //create the new object EmployeeEntity
+            var newEmployee = EmployeeEntity(0, name, randomLatitude, randomLongitude, email)
+            //insert the newly created object to the DB
+            UsersDataBase.getDatabase(MainMenu.instance).userDao().insert(newEmployee)
+        } else {
+            //create the new object EmployeeEntity
+            var newEmployee = EmployeeEntity(0, name, lat, log, email)
+            //insert the newly created object to the DB
+            UsersDataBase.getDatabase(MainMenu.instance).userDao().insert(newEmployee)
+        }
 
-        //insert the newly created object to the DB
-        UsersDataBase.getDatabase(MainMenu.instance).userDao().insert(newEmployee)
 
     }
 

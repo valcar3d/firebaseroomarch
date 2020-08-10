@@ -15,10 +15,12 @@ import com.example.firebasetest.viewmodel.UserViewModel
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_add_employee.*
 
-
 class AddEmployee : AppCompatActivity() {
 
     private lateinit var userViewModel: UserViewModel
+    private var lat: String = ""
+    private var log: String = ""
+
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,12 +30,11 @@ class AddEmployee : AppCompatActivity() {
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         val client = LocationServices.getFusedLocationProviderClient(this)
 
-
         val PERMISSION_ALL = 1
         val PERMISSIONS = arrayOf(
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION)
-
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
 
         btnCurrentLocation.setOnClickListener {
 
@@ -42,7 +43,13 @@ class AddEmployee : AppCompatActivity() {
             } else {
                 client.lastLocation
                     .addOnCompleteListener(this) {
-                        toast("Latitude: ${it.result?.latitude}, Longitude: ${it.result?.longitude}")
+                        lat = it.result?.latitude.toString()
+                        log = it.result?.longitude.toString()
+
+                        txtLatitude.text = lat
+                        txtLongitude.text = log
+
+                        MainMenuColabs.instance.toast("Se usará tu ubicación actual para el registro")
                     }
             }
 
@@ -55,17 +62,26 @@ class AddEmployee : AppCompatActivity() {
             if (name == "" || mail == "") {
                 toast("Porfavor rellene los campos")
             } else {
-                userViewModel.insertNewUser(name, mail)
-                toast("Colaborador agregado")
+                userViewModel.insertNewUser(name, mail, lat, log)
+
+                if (lat == "" || log == "") {
+                    toast("Colaborador agregado, lat y log al azar")
+                } else {
+                    toast("Colaborador agregado con ubicación actual")
+                }
                 etNameEmployee.value = ""
                 etEmail.value = ""
+                txtLatitude.text = "Random Lat"
+                txtLongitude.text = "Random Log"
+
+                //Reset values for latitude and longitude
+                lat = ""
+                log = ""
             }
 
         }
-
-
+        
     }
-
 
     fun hasPermissions(context: Context, vararg permissions: String): Boolean = permissions.all {
         ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED

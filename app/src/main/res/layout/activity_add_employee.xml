@@ -134,7 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:text="random lat" />
+            android:text="Random Lat" />
 
         <TextView
             android:id="@+id/txtTitleLongitude"
@@ -147,7 +147,7 @@
             android:id="@+id/txtLongitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="random log" />
+            android:text="Random Log" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
