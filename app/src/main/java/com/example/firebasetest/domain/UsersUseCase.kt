@@ -68,7 +68,6 @@ class UsersUseCase {
                                     //check the database to see all changes made
                                     userViewModel.getCurrentEmployees()
 
-
                                 }
 
                             }
