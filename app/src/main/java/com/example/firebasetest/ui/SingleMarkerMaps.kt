@@ -38,11 +38,15 @@ class SingleMarkerMaps : AppCompatActivity(), OnMapReadyCallback {
 
         //Add a marker in selected user and move the camera
         val selectedName = LatLng(Doubles.tryParse(lat)!!, Doubles.tryParse(log)!!)
-        mMap.addMarker(MarkerOptions().position(selectedName).title("Marker for $fullName"))
+        mMap.addMarker(
+            MarkerOptions()
+                .position(selectedName)
+                .title("Marker for $fullName")
+                .snippet("This is employee information"))
 
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(selectedName))
-
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(20f))
 
     }
 

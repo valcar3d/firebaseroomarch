@@ -22,18 +22,13 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var userViewModel: UserViewModel
-
-    companion object {
-        var mapFragment: SupportMapFragment? = null
-    }
-
+    private lateinit var mapFragment: SupportMapFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         userViewModel.getCurrentEmployees()
-
 
     }
 
@@ -44,7 +39,7 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
 
         var rootView = inflater.inflate(R.layout.activity_multiple_markers_map, container, false)
 
-        mapFragment = childFragmentManager.findFragmentById(R.id.mapMultiple) as SupportMapFragment?
+        mapFragment = childFragmentManager.findFragmentById(R.id.mapMultiple) as SupportMapFragment
         mapFragment?.getMapAsync(this)
 
         return rootView
@@ -67,10 +62,7 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
                 var log = item.longitude!!.toDouble()
 
                 points = LatLng(lat, log)
-                mMap.addMarker(
-                    MarkerOptions().position(points).title("Marker for ${item.fullName}")
-                )
-
+                mMap.addMarker(MarkerOptions().position(points).title("Marker for ${item.fullName}"))
 
             }
         })

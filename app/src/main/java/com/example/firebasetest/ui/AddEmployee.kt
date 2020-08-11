@@ -21,7 +21,6 @@ class AddEmployee : AppCompatActivity() {
     private var lat: String = ""
     private var log: String = ""
 
-
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +79,7 @@ class AddEmployee : AppCompatActivity() {
             }
 
         }
-        
+
     }
 
     fun hasPermissions(context: Context, vararg permissions: String): Boolean = permissions.all {
