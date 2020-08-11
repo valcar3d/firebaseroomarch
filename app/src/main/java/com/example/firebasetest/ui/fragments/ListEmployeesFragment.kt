@@ -11,9 +11,9 @@ import com.example.firebasetest.R
 import com.example.firebasetest.adapters.EmployeesAdapter
 import com.example.firebasetest.db.EmployeeEntity
 import com.example.firebasetest.interfaces.RecyclerViewCallback
-import com.example.firebasetest.interfaces.UnzipingComplete
 import com.example.firebasetest.ui.MainMenuColabs
 import com.example.firebasetest.ui.SingleMarkerMaps
+import com.example.firebasetest.util.CheckForAFile.fileExists
 import com.example.firebasetest.util.toast
 import com.example.firebasetest.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_list_employees.*
@@ -21,20 +21,28 @@ import kotlinx.android.synthetic.main.fragment_list_employees.*
 class ListEmployeesFragment : Fragment(R.layout.fragment_list_employees), RecyclerViewCallback {
 
     private lateinit var userViewModel: UserViewModel
+    private var downloadPath = MainMenuColabs.instance.filesDir.toString()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initViewModelObserver()
-        userViewModel.getDownload()
+
+        //check if file is already downloaded just read actual DB
+        if (!fileExists("$downloadPath", "EmployeesList.zip")) {
+            MainMenuColabs.instance.toast("Downloading employees from remote database")
+            userViewModel.getDownload()
+        } else {
+            userViewModel.getCurrentEmployees()
+        }
 
     }
 
     private fun initViewModelObserver() {
         userViewModel = ViewModelProvider(MainMenuColabs.instance).get(UserViewModel::class.java)
-        userViewModel.empData.observe(MainMenuColabs.instance, Observer { user ->
+        userViewModel.empData.observe(MainMenuColabs.instance, Observer { employeeObject ->
 
-            val adapter = EmployeesAdapter(user, this)
+            val adapter = EmployeesAdapter(employeeObject, this)
 
             if (rvEmployeesFrag != null) {
                 progressBarEmployees.visibility = View.INVISIBLE

@@ -31,7 +31,6 @@ class MainMenuColabs : AppCompatActivity() {
             }
         }
 
-
         btnMap.setOnClickListener {
             supportFragmentManager.beginTransaction().apply {
                 replace(R.id.flFragment, mapFragment)
