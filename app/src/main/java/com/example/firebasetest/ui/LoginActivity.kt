@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.firebasetest.R
+import com.example.firebasetest.util.CheckInputLogin
 import com.example.firebasetest.util.toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
@@ -27,10 +28,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun attempLogin() {
 
-        if (username.text.toString() == "" || password.text.toString() == "") {
-            toast("Porfavor inserta datos para login")
-        } else {
-
+        if (!CheckInputLogin.validateRegistratonInput(username.text.toString(),password.text.toString()))
+        { toast("Porfavor completa los campos para login") } else {
 
             var uName = username.text.toString()
             var uPass = password.text.toString()
