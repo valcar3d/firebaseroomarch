@@ -6,16 +6,19 @@ import java.io.File
 object CheckForAFile {
     fun fileExists(directory: String, fileName: String): Boolean {
 
-        return !(directory.isEmpty() || fileName.isEmpty())
+        if (fileName == "" || directory == "") {
+            //File is not downloaded...download
+            return false
+        } else {
 
-        val file = File(directory, fileName)
-        val fileExists = file.exists()
-
-        if (fileExists) {
-            //File found don't download
-            return true
+            val file = File(directory, fileName)
+            val fileExists = file.exists()
+            if (fileExists) {
+                //File found don't download
+                return true
+            }
+            //by default download a file
+            return false
         }
-        //File is not downloaded...download
-        return false
     }
 }

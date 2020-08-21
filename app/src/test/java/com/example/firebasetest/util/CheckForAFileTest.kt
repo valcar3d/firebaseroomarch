@@ -5,6 +5,14 @@ import org.junit.Test
 
 
 class CheckForAFileTest {
+
+    @Test
+    fun `Check for empty directory and filename returns false`() {
+
+        var result = CheckForAFile.fileExists("", "")
+        assertThat(result).isFalse()
+    }
+
     @Test
     fun `Check for invalid directory returns false`() {
 
@@ -19,11 +27,6 @@ class CheckForAFileTest {
         assertThat(result).isFalse()
     }
 
-    @Test
-    fun `Check for valid directory and fileName returns true`() {
 
-        var result = CheckForAFile.fileExists("/", "someName")
-        assertThat(result).isTrue()
-    }
 
 }
