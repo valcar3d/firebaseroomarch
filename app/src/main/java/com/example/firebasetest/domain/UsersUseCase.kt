@@ -1,5 +1,6 @@
 package com.example.firebasetest.domain
 
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.downloader.Error
@@ -47,10 +48,10 @@ class UsersUseCase {
     }
 
     private fun downloadURL(objectToGetUrl: UserData?) {
-        var urlToDownload: String? = objectToGetUrl?.data?.file
+        val urlToDownload: String? = objectToGetUrl?.data?.file
         PRDownloader.initialize(MainMenu.instance)
 
-        //download the file from provided URL and assing a name
+        //download the file provided from the URL and assign a file name
         PRDownloader.download(urlToDownload, dirPath, "EmployeesList.zip")
             .build()
             .start(object : OnDownloadListener {
@@ -59,8 +60,11 @@ class UsersUseCase {
                     unzip("$dirPath/EmployeesList.zip", "$dirPath/files",
                         object : UnzipingComplete {
                             override fun onUnzipCompletion() {
+                                Toast.makeText(MainMenu.instance, "Descompresión completa", Toast.LENGTH_SHORT).show()
+
                                 userViewModel.viewModelScope.launch(Dispatchers.IO) {
                                     //Process downloaded json
+
                                     processJson()
                                     //check the database to see all changes made
                                     userViewModel.getCurrentEmployees()

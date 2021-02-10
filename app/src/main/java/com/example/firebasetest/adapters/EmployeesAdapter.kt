@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.users_list.view.*
 
 class EmployeesAdapter(
     var employees: List<EmployeeEntity>,
-    private var listener: RecyclerViewCallback
-) :
+    private var listener: RecyclerViewCallback) :
+
     RecyclerView.Adapter<EmployeesAdapter.EmployeeViewHolder>() {
 
     inner class EmployeeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -33,7 +33,7 @@ class EmployeesAdapter(
 
         holder.itemView.apply {
             empName.text = employees[position].fullName
-            empLocation.text = employees[position].latidude + employees[position].longitude
+            empLocation.text = employees[position].latidude +" , "+ employees[position].longitude
             empMail.text = employees[position].email
 
             //Get current data of the Item selected

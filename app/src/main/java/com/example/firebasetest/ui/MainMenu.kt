@@ -2,8 +2,10 @@ package com.example.firebasetest.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.storage.StorageManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.firebasetest.R
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_main_menu.*
 
 class MainMenu : AppCompatActivity() {

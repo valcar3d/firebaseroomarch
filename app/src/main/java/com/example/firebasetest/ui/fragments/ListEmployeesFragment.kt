@@ -30,7 +30,7 @@ class ListEmployeesFragment : Fragment(R.layout.fragment_list_employees), Recycl
 
         //check if file is already downloaded just read actual DB
         if (!fileExists("$downloadPath", "EmployeesList.zip")) {
-            MainMenuColabs.instance.toast("Downloading employees from remote database")
+            MainMenuColabs.instance.toast("Descargando archivo de empleados desde internet")
             userViewModel.getDownload()
         } else {
             userViewModel.getCurrentEmployees()

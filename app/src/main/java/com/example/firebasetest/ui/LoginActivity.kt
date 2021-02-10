@@ -3,24 +3,28 @@ package com.example.firebasetest.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.firebasetest.R
+import com.example.firebasetest.databinding.ActivityLoginBinding
 import com.example.firebasetest.util.CheckInputLogin
 import com.example.firebasetest.util.toast
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
-
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
+    lateinit var binding: ActivityLoginBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+
+        binding = DataBindingUtil.setContentView(
+            this, R.layout.activity_login)
 
         mAuth = FirebaseAuth.getInstance()
 
-        btnLogin.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             attempLogin()
         }
 
@@ -28,14 +32,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun attempLogin() {
 
-        if (!CheckInputLogin.validateRegistratonInput(username.text.toString(),password.text.toString()))
+        val username = binding.username.text.toString()
+        val password = binding.password.text.toString()
+
+        if (!CheckInputLogin.validateRegistratonInput(username,password))
+
         { toast("Porfavor completa los campos para login") } else {
 
-            var uName = username.text.toString()
-            var uPass = password.text.toString()
-
-
-            mAuth.signInWithEmailAndPassword(uName, uPass)
+            mAuth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(
                     this
                 ) { task ->

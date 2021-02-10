@@ -9,7 +9,6 @@ import java.util.zip.ZipInputStream
 object UnzipUtil {
 
     fun unzip(_zipFile: String?, _targetLocation: String, unzipingComplete: UnzipingComplete) {
-
         try {
             val fin = FileInputStream(_zipFile)
             val zin = ZipInputStream(fin)
@@ -31,5 +30,4 @@ object UnzipUtil {
             println(e)
         }
     }
-
 }

@@ -62,7 +62,7 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
                 var log = item.longitude!!.toDouble()
 
                 points = LatLng(lat, log)
-                mMap.addMarker(MarkerOptions().position(points).title("Marker for ${item.fullName}"))
+                mMap.addMarker(MarkerOptions().position(points).title("El empleado ${item.fullName}"))
 
             }
         })

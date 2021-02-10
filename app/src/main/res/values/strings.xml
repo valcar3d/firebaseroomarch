@@ -9,8 +9,23 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_multiple_markers_map">Map</string>
+    <string name="userText"><b>usuario:</b> marisol@email.com</string>
+    <string name="passwordText"><b>password:</b> 123456</string>
+    <string name="txtDescription">En este login se autentican credenciales en Firebase si no existe
+       el usuario no se podrá acceder a la app, <b>se requiere de una conexión a internet</b></string>
+    <string name="txtTitle"><b>Examen de Android</b></string>
+    <string name="txtDescriptionMainView">En esta sección se puede agregar un colaborador o ver los que ya estan guardados, todos los datos se
+    guardan en una base de datos local mediante la librería <b>Room</b></string>
+    <string name="txtDescriptionColabs">En esta <b>Lista</b> se muestran los colaboradores descargados de internet y/o descomprimidos <b>tocar un elemento</b> muestra el <b>marcador</b> de ese empleado, también hay una vista de <b>mapa</b> con todos los
+    usuarios registrados y sus marcadores correspondientes</string>
+    <string name="txtDescriptionAddEmployee">En esta sección se pueden agregar <b>nuevos empleados</b> con ubicaciones al azar
+    por defecto, tambien existe la opción de usar la ubicación actual presionando el botón <b>"Usar ubicación"</b></string>
+
+    <string name="txtLatLong"><b>Latitud y longitud:</b></string>
+    <string name="txtCorreo"><b>Correo electrónico:</b></string>
+    <string name="txtEmployeeName"><b>Nombre del empleado:</b></string>
 </resources>

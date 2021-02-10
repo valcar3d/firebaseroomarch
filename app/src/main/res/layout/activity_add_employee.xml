@@ -24,7 +24,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="40dp"
-        android:text="Name Of Employee:"
+        android:text="Nombre del Empleado:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
@@ -44,9 +44,9 @@
         android:id="@+id/etEmail"
         android:layout_width="206dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginTop="28dp"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
@@ -71,7 +71,7 @@
         android:id="@+id/btnAddColaborator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Employee"
+        android:text="Agregar Empleado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnCurrentLocation"
@@ -93,26 +93,26 @@
         android:id="@+id/btnCurrentLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Use\nCurrent Location"
+        android:text="Usar ubicación"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnAddColaborator"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.112" />
+        app:layout_constraintVertical_bias="0.129" />
 
     <TextView
 
         android:id="@+id/txtTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Current location:"
+        android:text="Ubicación actual:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddColaborator"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintVertical_bias="0.15" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -127,27 +127,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:text="Latitude:" />
+            android:text="Latitud:"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtLatitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:text="Random Lat" />
+            android:text="Random Lat"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/txtTitleLongitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:text="Longitude:" />
+            android:text="Longitud:"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtLongitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Random Log" />
+            android:text="Random Long"
+            android:textStyle="italic" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/txtDescriptionAddEmployee"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddColaborator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
